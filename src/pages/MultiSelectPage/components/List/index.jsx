@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ListItem } from '../ListItem';
 
-export const List = () => {
+export const List = ({ onToggle }) => {
   const [items, setItems] = useState(null);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export const List = () => {
   return (
     <div className="list">
       {items.map((item) => (
-        <ListItem key={item.id} item={item} />
+        <ListItem key={item.id} item={item} onToggle={onToggle} />
       ))}
     </div>
   );

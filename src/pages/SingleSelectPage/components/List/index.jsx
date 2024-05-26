@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { ListItem } from '../ListItem';
 
-export const List = () => {
+export const List = ({ onItemSelect }) => {
   const [items, setItems] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
-  
+
   useEffect(() => {
     const fetchItems = async () => {
       const response = await fetch('http://localhost:4000/api/items');
@@ -14,6 +14,12 @@ export const List = () => {
 
     fetchItems();
   }, []);
+
+  const handleSelect = (id, isSelected) => {
+    const selectedItem = items.find((item) => item.id === id);
+    onItemSelect(selectedItem, isSelected);
+    setSelectedId(isSelected ? id : null);
+  };
 
   if (items === null) {
     return <p>Loading...</p>;
@@ -26,7 +32,7 @@ export const List = () => {
           key={item.id}
           item={item}
           selected={item.id === selectedId}
-          onSelect={setSelectedId}
+          onSelect={handleSelect}
         />
       ))}
     </div>
